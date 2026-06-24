@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Genealogical Likelihood Under Continuous Migration</title>
+
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+<script async
+src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+</head>
+
+<body>
+
+<!-- Slide 1 -->
+
+<section class="slide title-slide">
+
+<h1>Genealogical Likelihood Under Continuous Migration</h1>
+
+<h2>A Moment-Based Extension of gLike</h2>
+
+<p>Rohanna Hasselkus</p>
+
+<p>University of Chicago • Summer 2026</p>
+
+</section>
+
+
+
+<!-- Slide 2 -->
+
+<section class="slide">
+
+<h1>Motivation</h1>
+
+<h2>Demographic inference from genealogies</h2>
+
+<ul>
+
+<li>Goal:</li>
+
+</ul>
+
+<div class="equation">
+$$
+P(G|\theta)
+$$
+</div>
+
+<ul>
+<li>\(G\): genealogical tree</li>
+
+<li>\(\theta\): demographic model</li>
+
+<li>Genealogies encode
+<ul>
+<li>population sizes</li>
+<li>admixture events</li>
+<li>migration history</li>
+</ul>
+</li>
+
+<li>ARG inference makes genealogy-based approaches computationally feasible.</li>
+
+<li>We seek a likelihood framework for demographic inference.</li>
+
+</ul>
+
+</section>
+
+
+
+<!-- Slide 3 -->
+
+<section class="slide">
+
+<h1>gLike (Fan et al. 2025)</h1>
+
+<h2>Genealogical likelihood framework</h2>
+
+<p>Given:</p>
+
+<ul>
+<li>tree topology and coalescence times</li>
+<li>leaf population labels</li>
+<li>demographic model</li>
+</ul>
+
+<p>Unknown:</p>
+
+<ul>
+<li>population memberships of internal lineages</li>
+</ul>
+
+<p>Compute</p>
+
+<div class="equation">
+$$
+P(G|\theta)
+$$
+</div>
+
+<p>by integrating over all admissible lineage histories.</p>
+
+<div class="figure">
+
+<img src="fig1_overview.png">
+
+</div>
+
+</section>
+
+
+
+<!-- Slide 4 -->
+
+<section class="slide">
+
+<h1>Graph of States</h1>
+
+<h2>Central object: Graph of States (GOS)</h2>
+
+<p>A state specifies</p>
+
+<blockquote>
+population memberships of all active lineages.
+</blockquote>
+
+<p>Algorithm:</p>
+
+<ul>
+<li>identify possible lineage populations</li>
+
+<li>construct GOS</li>
+
+<li>compute conditional probabilities</li>
+
+<li>propagate marginal probabilities</li>
+
+<li>sum over root states</li>
+
+</ul>
+
+<p>Advantages:</p>
+
+<ul>
+<li>exact likelihood</li>
+
+<li>avoids explicit trajectory enumeration</li>
+
+<li>highly accurate for pulse admixture models</li>
+
+</ul>
+
+<div class="figure">
+
+<img src="gos.png">
+
+</div>
+
+</section>
+
+
+
+<!-- Slide 5 -->
+
+<section class="slide">
+
+<h1>Limitation</h1>
+
+<h2>Continuous migration</h2>
+
+<p>Suppose migration is described by</p>
+
+<div class="equation">
+$$
+M(t)
+$$
+</div>
+
+<ul>
+
+<li>lineages may migrate at every instant</li>
+
+<li>configurations communicate continuously</li>
+
+<li>the graph of states becomes intractable</li>
+
+</ul>
+
+<p>The number of configurations grows as</p>
+
+<div class="equation">
+
+$$
+K^n
+$$
+
+</div>
+
+<h2>Question</h2>
+
+<p>
+Can we integrate over continuous lineage trajectories without enumerating states?
+</p>
+
+</section>
+
+
+
+<!-- Slide 6 -->
+
+<section class="slide">
+
+<h1>Structured Coalescent Likelihood</h1>
+
+<div class="equation">
+
+$$
+L=
+\sum_x
+P(x|\mathrm{mig})
+\prod_a\delta_{x_a,k_a}
+\prod_s
+\frac{1}{2N_{x_s}(t_s)}
+\exp\left(
+-\int\lambda(t;x)dt
+\right)
+$$
+
+</div>
+
+<p>where</p>
+
+<div class="equation">
+
+$$
+\lambda(t;x)
+=
+\sum_k
+\frac1{2N_k(t)}
+\binom{\ell_k(t;x)}2
+$$
+
+</div>
+
+<h2>Difficulty</h2>
+
+<p>Integrating over all trajectory assignments \(x\).</p>
+
+</section>
+
+
+
+<!-- Slide 7 -->
+
+<section class="slide">
+
+<h1>Main Idea</h1>
+
+<div class="equation">
+
+$$
+L=
+L_{\mathrm{peel}}
+\cdot
+E_Q
+\left[
+e^{-\int\lambda dt}
+\right]
+$$
+
+</div>
+
+<p>This decomposition is exact.</p>
+
+<h2>Pass I</h2>
+
+<p>Compute \(L_{\mathrm{peel}}\)</p>
+
+<h2>Pass II</h2>
+
+<p>Approximate the survival term without constructing a graph of states.</p>
+
+</section>
+
+
+
+<!-- Slide 8 -->
+
+<section class="slide">
+
+<h1>Backward Pass</h1>
+
+<h2>Felsenstein pruning under the structured coalescent</h2>
+
+<div class="equation">
+
+$$
+L_a(k,t)
+=
+P(\text{subtree below }a\mid a\in k)
+$$
+
+</div>
+
+<ul>
+
+<li>Leaf initialization</li>
+
+</ul>
+
+<div class="equation">
+
+$$
+L_a(k)=\delta_{k,k_a}
+$$
+
+</div>
+
+<ul>
+
+<li>Branch propagation</li>
+
+</ul>
+
+<div class="equation">
+
+$$
+\tilde L_a(j)
+=
+\sum_k T_{jk}(\delta)L_a(k)
+$$
+
+</div>
+
+<ul>
+
+<li>Coalescence merge</li>
+
+</ul>
+
+<div class="equation">
+
+$$
+L_c(k)
+=
+\frac1{2N_k}
+\tilde L_a(k)
+\tilde L_b(k)
+$$
+
+</div>
+
+<h2>Output</h2>
+
+<div class="equation">
+
+$$
+L_{\rm peel}
+$$
+
+</div>
+
+<p>Complexity:</p>
+
+<div class="equation">
+
+$$
+O(nK^2)
+$$
+
+</div>
+
+</section>
+
+
+
+<!-- Slide 9 -->
+
+<section class="slide">
+
+<h1>Why a Second Pass?</h1>
+
+<ul>
+
+<li>Backward pass gives
+
+$$
+P(\text{descendants}\mid\text{location})
+$$
+
+</li>
+
+<li>Contains no information about ancestry above a node.</li>
+
+<li>Need
+
+$$
+P(\text{location}\mid\text{ancestral history})
+$$
+
+</li>
+
+<li>Hence a forward pass is required.</li>
+
+</ul>
+
+</section>
+
+
+
+<!-- Slide 10 -->
+
+<section class="slide">
+
+<h1>Forward Pass</h1>
+
+<h2>Pairwise location priors</h2>
+
+<p>Track marginals</p>
+
+<div class="equation">
+
+$$
+\pi_{a,k}(t)
+$$
+
+</div>
+
+<p>Track pairwise moments</p>
+
+<div class="equation">
+
+$$
+\Pi_{ab}(j,k;t)
+$$
+
+</div>
+
+<p>Evolution equations:</p>
+
+<div class="equation">
+
+$$
+\pi_a(t+\delta)
+=
+\pi_a(t)T(\delta)
+$$
+
+</div>
+
+<div class="equation">
+
+$$
+\Pi_{ab}(t+\delta)
+=
+T^T
+\Pi_{ab}(t)
+T
+$$
+
+</div>
+
+<p>Complexity:</p>
+
+<div class="equation">
+
+$$
+O(n^2K^2)
+$$
+
+</div>
+
+</section>
+
+
+
+<!-- Slide 11 -->
+
+<section class="slide">
+
+<h1>Combining Both Passes</h1>
+
+<div class="equation">
+
+$$
+\gamma_{ab}(j,k;t)
+\propto
+\Pi_{ab}(j,k;t)
+L_a(j,t)
+L_b(k,t)
+$$
+
+</div>
+
+<p>Posterior co-location probability:</p>
+
+<div class="equation">
+
+$$
+c_{ab,k}^{(\mathrm{post})}(t)
+$$
+
+</div>
+
+<p>Expected coalescence rate:</p>
+
+<div class="equation">
+
+$$
+E_Q[\lambda(t)]
+=
+\sum_{a<b}
+\sum_k
+\frac{
+c_{ab,k}^{(\mathrm{post})}(t)
+}
+{2N_k(t)}
+$$
+
+</div>
+
+</section>
+
+
+
+<!-- Slide 12 -->
+
+<section class="slide">
+
+<h1>Mean-Field Approximation</h1>
+
+<h2>Only approximation in the algorithm</h2>
+
+<div class="equation">
+
+$$
+E_Q
+\left[
+e^{-\int\lambda dt}
+\right]
+\approx
+\exp
+\left(
+-\int
+E_Q[\lambda(t)]dt
+\right)
+$$
+
+</div>
+
+<p>Therefore</p>
+
+<div class="equation">
+
+$$
+\log L
+=
+\log L_{\rm peel}
+-
+\int
+E_Q[\lambda(t)]dt
+$$
+
+</div>
+
+<p>Everything else is exact.</p>
+
+</section>
+
+
+
+<!-- Slide 13 -->
+
+<section class="slide">
+
+<h1>Future Directions</h1>
+
+<ul>
+
+<li>Triplet moments</li>
+
+<li>Cumulant expansions</li>
+
+<li>Boundary-layer corrections</li>
+
+<li>Ancient DNA integration</li>
+
+<li>Full ARG likelihoods</li>
+
+</ul>
+
+<h2>Goal</h2>
+
+<p>
+A continuous-migration analogue of gLike that avoids graph-of-state enumeration.
+</p>
+
+</section>
+
+</body>
+</html>
