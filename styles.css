@@ -1,0 +1,408 @@
+/* =========================
+   Global
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#fafafa;
+    color:#222;
+    font-family:'Inter',sans-serif;
+    overflow-x:hidden;
+}
+
+
+/* =========================
+   Slides
+========================= */
+
+.slide{
+    width:100vw;
+    height:100vh;
+
+    padding-top:70px;
+    padding-left:9vw;
+    padding-right:9vw;
+    padding-bottom:70px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+
+    position:relative;
+}
+
+
+/* =========================
+   Title Slide
+========================= */
+
+.title-slide{
+    justify-content:center;
+}
+
+
+.title-slide h1{
+    font-size:68px;
+    font-weight:700;
+
+    width:75%;
+    line-height:1.1;
+
+    margin-bottom:25px;
+}
+
+
+.title-slide h2{
+    font-size:38px;
+    font-weight:400;
+
+    color:#3f6b8e;
+
+    margin-bottom:60px;
+}
+
+
+.title-slide p{
+    font-size:28px;
+    margin-bottom:8px;
+}
+
+
+
+/* =========================
+   Headers
+========================= */
+
+h1{
+
+    font-size:56px;
+    font-weight:700;
+
+    margin-bottom:25px;
+
+    color:#1f2e3d;
+
+}
+
+
+h2{
+
+    font-size:34px;
+    font-weight:500;
+
+    color:#58799a;
+
+    margin-bottom:28px;
+
+}
+
+
+
+/* =========================
+   Paragraphs
+========================= */
+
+p{
+
+    font-size:28px;
+    line-height:1.5;
+
+    margin-bottom:20px;
+
+}
+
+
+
+/* =========================
+   Lists
+========================= */
+
+ul{
+
+    margin-left:35px;
+
+    margin-bottom:25px;
+
+}
+
+
+li{
+
+    font-size:28px;
+
+    line-height:1.6;
+
+    margin-bottom:12px;
+
+}
+
+
+li ul{
+
+    margin-top:12px;
+
+}
+
+
+/* =========================
+   Equations
+========================= */
+
+.equation{
+
+    margin-top:25px;
+
+    margin-bottom:30px;
+
+    text-align:center;
+
+    font-size:32px;
+
+}
+
+
+/* =========================
+   Block Quotes
+========================= */
+
+blockquote{
+
+    margin-top:30px;
+    margin-bottom:35px;
+
+    padding-left:35px;
+
+    border-left:4px solid #4b7194;
+
+    color:#444;
+
+    font-size:30px;
+
+    line-height:1.5;
+
+    font-style:italic;
+
+}
+
+
+/* =========================
+   Figures
+========================= */
+
+.figure{
+
+    width:100%;
+
+    margin-top:auto;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+.figure img{
+
+    max-width:80%;
+
+    max-height:450px;
+
+    object-fit:contain;
+
+}
+
+
+
+/* =========================
+   Two Column Layout
+========================= */
+
+.two-column{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:70px;
+
+    align-items:start;
+
+}
+
+
+.left-column{
+
+    width:100%;
+
+}
+
+
+.right-column{
+
+    width:100%;
+
+}
+
+
+
+/* =========================
+   Highlight Box
+========================= */
+
+.highlight{
+
+    background:white;
+
+    border-left:6px solid #4f7393;
+
+    padding:30px;
+
+    margin-top:30px;
+
+    margin-bottom:30px;
+
+    box-shadow:0px 4px 15px rgba(0,0,0,.06);
+
+}
+
+
+.highlight p{
+
+    margin-bottom:10px;
+
+}
+
+
+
+/* =========================
+   Complexity Box
+========================= */
+
+.complexity{
+
+    width:350px;
+
+    padding:25px;
+
+    border-radius:12px;
+
+    background:#eef3f8;
+
+    margin-top:25px;
+
+}
+
+
+.complexity p{
+
+    margin-bottom:5px;
+
+}
+
+
+
+/* =========================
+   Tables
+========================= */
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:40px;
+
+}
+
+
+th{
+
+    font-size:28px;
+
+    padding:18px;
+
+    text-align:left;
+
+    border-bottom:2px solid #cfd8e1;
+
+}
+
+
+td{
+
+    font-size:26px;
+
+    padding:18px;
+
+    border-bottom:1px solid #e5e5e5;
+
+}
+
+
+
+/* =========================
+   Footer
+========================= */
+
+.slide::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:40px;
+    left:9vw;
+
+    width:90px;
+    height:4px;
+
+    background:#4b7194;
+
+}
+
+
+
+/* =========================
+   MathJax
+========================= */
+
+.MathJax{
+
+    font-size:120% !important;
+
+}
+
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width:1200px){
+
+    h1{
+        font-size:46px;
+    }
+
+    h2{
+        font-size:30px;
+    }
+
+    p,li{
+        font-size:24px;
+    }
+
+}
