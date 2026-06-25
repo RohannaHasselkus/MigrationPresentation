@@ -1,263 +1,216 @@
-// ===============================
-// Slide Navigation
-// ===============================
+// ==========================================================
+// Slide Navigation — Genealogical Likelihood Presentation
+// ==========================================================
 
-const slides = document.querySelectorAll(".slide");
-
+const slides = Array.from(document.querySelectorAll(".slide"));
 let currentSlide = 0;
 
 
-// ===============================
-// Create Slide Counter
-// ===============================
+// ==========================================================
+// Elements
+// ==========================================================
 
-const counter = document.createElement("div");
-counter.id = "slide-counter";
-
-document.body.appendChild(counter);
-
-
-// ===============================
-// Create Progress Bar
-// ===============================
-
-const progressContainer = document.createElement("div");
-progressContainer.id = "progress-container";
-
-const progressBar = document.createElement("div");
-progressBar.id = "progress-bar";
-
-progressContainer.appendChild(progressBar);
-
-document.body.appendChild(progressContainer);
+const counter  = document.getElementById("slide-counter");
+const progBar  = document.getElementById("progress-bar");
+const navEl    = document.getElementById("slide-nav");
 
 
-// ===============================
+// ==========================================================
+// Build Nav Dots
+// ==========================================================
+
+slides.forEach((slide, i) => {
+  const dot = document.createElement("button");
+  dot.className  = "nav-dot";
+  dot.setAttribute("aria-label", `Go to slide ${i + 1}`);
+  dot.setAttribute("data-label", slide.dataset.label || `Slide ${i + 1}`);
+  dot.addEventListener("click", () => goToSlide(i));
+  navEl.appendChild(dot);
+});
+
+const dots = Array.from(navEl.querySelectorAll(".nav-dot"));
+
+
+// ==========================================================
 // Go To Slide
-// ===============================
+// ==========================================================
 
-function goToSlide(index){
-
-    if(index < 0) return;
-    if(index >= slides.length) return;
-
-    currentSlide = index;
-
-    slides[currentSlide].scrollIntoView({
-        behavior: "smooth"
-    });
-
-    updateCounter();
-    updateProgress();
-
+function goToSlide(index) {
+  if (index < 0 || index >= slides.length) return;
+  currentSlide = index;
+  slides[index].scrollIntoView({ behavior: "smooth", block: "start" });
+  updateUI();
 }
 
 
-// ===============================
-// Next Slide
-// ===============================
+// ==========================================================
+// Next / Previous
+// ==========================================================
 
-function nextSlide(){
+function nextSlide() {
+  if (currentSlide < slides.length - 1) goToSlide(currentSlide + 1);
+}
 
-    if(currentSlide < slides.length - 1){
+function previousSlide() {
+  if (currentSlide > 0) goToSlide(currentSlide - 1);
+}
 
-        currentSlide++;
 
-        goToSlide(currentSlide);
+// ==========================================================
+// Update Counter, Progress, Dots
+// ==========================================================
 
+function updateUI() {
+  const n = slides.length;
+  const i = currentSlide;
+
+  counter.textContent = `${i + 1} / ${n}`;
+  progBar.style.width = `${((i + 1) / n) * 100}%`;
+
+  dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
+}
+
+
+// ==========================================================
+// Scroll → track active slide + fade-in
+// ==========================================================
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    // fade in
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
     }
+  });
+}, { threshold: 0.15 });
 
-}
+slides.forEach(s => observer.observe(s));
 
-
-// ===============================
-// Previous Slide
-// ===============================
-
-function previousSlide(){
-
-    if(currentSlide > 0){
-
-        currentSlide--;
-
-        goToSlide(currentSlide);
-
+// scroll-based active tracking (separate observer)
+const activeObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const idx = slides.indexOf(entry.target);
+      if (idx !== -1 && idx !== currentSlide) {
+        currentSlide = idx;
+        updateUI();
+      }
     }
+  });
+}, { threshold: 0.5 });
 
-}
-
-
-// ===============================
-// Update Counter
-// ===============================
-
-function updateCounter(){
-
-    counter.innerHTML =
-        (currentSlide + 1) + " / " + slides.length;
-
-}
+slides.forEach(s => activeObserver.observe(s));
 
 
-// ===============================
-// Update Progress Bar
-// ===============================
-
-function updateProgress(){
-
-    const percent =
-        ((currentSlide + 1) / slides.length) * 100;
-
-    progressBar.style.width = percent + "%";
-
-}
-
-
-// ===============================
+// ==========================================================
 // Keyboard Controls
-// ===============================
+// ==========================================================
 
-document.addEventListener("keydown",(event)=>{
-
-    switch(event.key){
-
-        case "ArrowRight":
-        case "PageDown":
-        case " ":
-            nextSlide();
-            break;
-
-        case "ArrowLeft":
-        case "PageUp":
-            previousSlide();
-            break;
-
-        case "Home":
-            goToSlide(0);
-            break;
-
-        case "End":
-            goToSlide(slides.length-1);
-            break;
-
-    }
-
+document.addEventListener("keydown", (e) => {
+  switch (e.key) {
+    case "ArrowRight":
+    case "ArrowDown":
+    case "PageDown":
+    case " ":
+      e.preventDefault();
+      nextSlide();
+      break;
+    case "ArrowLeft":
+    case "ArrowUp":
+    case "PageUp":
+      e.preventDefault();
+      previousSlide();
+      break;
+    case "Home":
+      e.preventDefault();
+      goToSlide(0);
+      break;
+    case "End":
+      e.preventDefault();
+      goToSlide(slides.length - 1);
+      break;
+    case "f":
+    case "F":
+      toggleFullscreen();
+      break;
+  }
 });
 
 
-// ===============================
+// ==========================================================
 // Mouse Wheel Navigation
-// ===============================
+// ==========================================================
 
-let wheelTimeout;
+let wheelCooldown = false;
 
-window.addEventListener("wheel",(event)=>{
+window.addEventListener("wheel", (e) => {
+  if (wheelCooldown) return;
+  wheelCooldown = true;
+  setTimeout(() => { wheelCooldown = false; }, 600);
 
-    clearTimeout(wheelTimeout);
+  if (e.deltaY > 30)       nextSlide();
+  else if (e.deltaY < -30) previousSlide();
+}, { passive: true });
 
-    wheelTimeout = setTimeout(()=>{
 
-        if(event.deltaY > 0){
+// ==========================================================
+// Click — right half → next, left half → previous
+// (skip clicks on interactive elements)
+// ==========================================================
 
-            nextSlide();
+document.addEventListener("click", (e) => {
+  const tag = e.target.tagName.toLowerCase();
+  const skip = ["button", "a", "input", "select", "textarea"];
+  if (skip.includes(tag)) return;
+  if (e.target.closest(".nav-dot")) return;
 
-        }
-
-        else{
-
-            previousSlide();
-
-        }
-
-    },100);
-
+  if (e.clientX > window.innerWidth / 2) nextSlide();
+  else previousSlide();
 });
 
 
-// ===============================
-// Click Right Side → Next Slide
-// Click Left Side → Previous Slide
-// ===============================
+// ==========================================================
+// Touch swipe support
+// ==========================================================
 
-document.addEventListener("click",(event)=>{
+let touchStartY = null;
+let touchStartX = null;
 
-    if(event.clientX > window.innerWidth/2){
+window.addEventListener("touchstart", (e) => {
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
 
-        nextSlide();
-
-    }
-
-    else{
-
-        previousSlide();
-
-    }
-
+window.addEventListener("touchend", (e) => {
+  if (touchStartY === null) return;
+  const dy = touchStartY - e.changedTouches[0].clientY;
+  const dx = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 40) {
+    if (dy > 0) nextSlide();
+    else previousSlide();
+  }
+  touchStartY = null;
+  touchStartX = null;
 });
 
 
-// ===============================
-// Track Scroll Position
-// ===============================
+// ==========================================================
+// Fullscreen
+// ==========================================================
 
-window.addEventListener("scroll",()=>{
-
-    let bestIndex = 0;
-    let bestDistance = Infinity;
-
-    slides.forEach((slide,index)=>{
-
-        const distance = Math.abs(
-            slide.getBoundingClientRect().top
-        );
-
-        if(distance < bestDistance){
-
-            bestDistance = distance;
-            bestIndex = index;
-
-        }
-
-    });
-
-    currentSlide = bestIndex;
-
-    updateCounter();
-    updateProgress();
-
-});
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+}
 
 
-// ===============================
-// Fullscreen Toggle (f)
-// ===============================
-
-document.addEventListener("keydown",(event)=>{
-
-    if(event.key === "f"){
-
-        if(!document.fullscreenElement){
-
-            document.documentElement.requestFullscreen();
-
-        }
-
-        else{
-
-            document.exitFullscreen();
-
-        }
-
-    }
-
-});
-
-
-// ===============================
+// ==========================================================
 // Initial Setup
-// ===============================
+// ==========================================================
 
-updateCounter();
-updateProgress();
-
+updateUI();
+slides[0].classList.add("visible");
 goToSlide(0);
