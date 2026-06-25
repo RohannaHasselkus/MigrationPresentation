@@ -4,624 +4,600 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Genealogical Likelihood Under Continuous Migration</title>
 
 <link rel="stylesheet" href="styles.css">
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <script>
 MathJax = {
   tex: {
     inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea']
   }
 };
 </script>
-
-<script async
-src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
 </head>
-
 <body>
 
-<!-- Slide 1 -->
+<!-- Nav Dots -->
+<nav id="slide-nav"></nav>
 
-<section class="slide title-slide">
+<!-- Slide Counter -->
+<div id="slide-counter"></div>
 
-<h1>Genealogical Likelihood Under Continuous Migration</h1>
+<!-- Progress Bar -->
+<div id="progress-container"><div id="progress-bar"></div></div>
 
-<h2>A Moment-Based Extension of gLike</h2>
+<!-- ══════════════════════════════════════════
+     Slide 1 — Title
+══════════════════════════════════════════ -->
+<section class="slide title-slide" data-label="Title">
 
-<p>Rohanna Hasselkus</p>
+  <div class="title-eyebrow">Population Genetics · Summer 2026</div>
 
-<p>University of Chicago • Summer 2026</p>
+  <h1>Genealogical Likelihood<br>Under Continuous Migration</h1>
 
-</section>
+  <h2>A Moment-Based Extension of gLike</h2>
 
+  <div class="title-author">
+    <span class="author-name">Rohanna Hasselkus</span>
+    <span class="author-inst">University of Chicago</span>
+  </div>
 
-
-<!-- Slide 2 -->
-
-<section class="slide">
-
-<h1>Motivation</h1>
-
-<h2>Demographic inference from genealogies</h2>
-
-<ul>
-
-<li>Goal:</li>
-
-</ul>
-
-<div class="equation">
-$$
-P(G|\theta)
-$$
-</div>
-
-<ul>
-<li>\(G\): genealogical tree</li>
-
-<li>\(\theta\): demographic model</li>
-
-<li>Genealogies encode
-<ul>
-<li>population sizes</li>
-<li>admixture events</li>
-<li>migration history</li>
-</ul>
-</li>
-
-<li>ARG inference makes genealogy-based approaches computationally feasible.</li>
-
-<li>We seek a likelihood framework for demographic inference.</li>
-
-</ul>
+  <!-- decorative tree SVG -->
+  <svg class="deco-tree" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- leaves -->
+    <circle cx="40"  cy="30"  r="6" fill="var(--accent-gold)" opacity=".9"/>
+    <circle cx="120" cy="30"  r="6" fill="var(--accent-gold)" opacity=".9"/>
+    <circle cx="200" cy="30"  r="6" fill="var(--accent-gold)" opacity=".9"/>
+    <circle cx="280" cy="30"  r="6" fill="var(--accent-gold)" opacity=".9"/>
+    <!-- branches up -->
+    <line x1="40"  y1="30"  x2="80"  y2="90"  stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <line x1="120" y1="30"  x2="80"  y2="90"  stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <line x1="200" y1="30"  x2="240" y2="90"  stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <line x1="280" y1="30"  x2="240" y2="90"  stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <!-- internal nodes -->
+    <circle cx="80"  cy="90"  r="5" fill="var(--accent)" opacity=".7"/>
+    <circle cx="240" cy="90"  r="5" fill="var(--accent)" opacity=".7"/>
+    <line x1="80"  y1="90"  x2="160" y2="170" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <line x1="240" y1="90"  x2="160" y2="170" stroke="var(--accent)" stroke-width="2" opacity=".5"/>
+    <!-- root -->
+    <circle cx="160" cy="170" r="7" fill="var(--accent)" opacity=".9"/>
+    <line x1="160" y1="170" x2="160" y2="210" stroke="var(--accent)" stroke-width="2" opacity=".4"/>
+  </svg>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 2 — Motivation
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Motivation">
+  <div class="slide-number-ghost">02</div>
 
-<!-- Slide 3 -->
+  <h1>Motivation</h1>
+  <h2>Demographic inference from genealogies</h2>
 
-<section class="slide">
+  <ul>
+    <li>Goal: compute the probability of a genealogy given a demographic model</li>
+  </ul>
 
-<h1>gLike (Fan et al. 2025)</h1>
+  <div class="equation">$$P(G \mid \theta)$$</div>
 
-<h2>Genealogical likelihood framework</h2>
-
-<p>Given:</p>
-
-<ul>
-<li>tree topology and coalescence times</li>
-<li>leaf population labels</li>
-<li>demographic model</li>
-</ul>
-
-<p>Unknown:</p>
-
-<ul>
-<li>population memberships of internal lineages</li>
-</ul>
-
-<p>Compute</p>
-
-<div class="equation">
-$$
-P(G|\theta)
-$$
-</div>
-
-<p>by integrating over all admissible lineage histories.</p>
-
-<div class="figure">
-
-<img src="fig1_overview.png">
-
-</div>
+  <ul>
+    <li>\(G\): genealogical tree</li>
+    <li>\(\theta\): demographic model</li>
+    <li>Genealogies encode
+      <ul>
+        <li>population sizes</li>
+        <li>admixture events</li>
+        <li>migration history</li>
+      </ul>
+    </li>
+    <li>ARG inference makes genealogy-based approaches computationally feasible.</li>
+    <li>We seek a likelihood framework for demographic inference.</li>
+  </ul>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 3 — gLike
+══════════════════════════════════════════ -->
+<section class="slide" data-label="gLike">
+  <div class="slide-number-ghost">03</div>
 
-<!-- Slide 4 -->
+  <h1>gLike <span class="ref">(Fan et al. 2025)</span></h1>
+  <h2>Genealogical likelihood framework</h2>
 
-<section class="slide">
+  <div class="two-column">
+    <div class="left-column">
+      <p><strong>Given:</strong></p>
+      <ul>
+        <li>tree topology and coalescence times</li>
+        <li>leaf population labels</li>
+        <li>demographic model</li>
+      </ul>
 
-<h1>Graph of States</h1>
+      <p><strong>Unknown:</strong></p>
+      <ul>
+        <li>population memberships of internal lineages</li>
+      </ul>
 
-<h2>Central object: Graph of States (GOS)</h2>
-
-<p>A state specifies</p>
-
-<blockquote>
-population memberships of all active lineages.
-</blockquote>
-
-<p>Algorithm:</p>
-
-<ul>
-<li>identify possible lineage populations</li>
-
-<li>construct GOS</li>
-
-<li>compute conditional probabilities</li>
-
-<li>propagate marginal probabilities</li>
-
-<li>sum over root states</li>
-
-</ul>
-
-<p>Advantages:</p>
-
-<ul>
-<li>exact likelihood</li>
-
-<li>avoids explicit trajectory enumeration</li>
-
-<li>highly accurate for pulse admixture models</li>
-
-</ul>
-
-<div class="figure">
-
-<img src="gos.png">
-
-</div>
+      <p>Compute</p>
+      <div class="equation">$$P(G \mid \theta)$$</div>
+      <p>by integrating over all admissible lineage histories.</p>
+    </div>
+    <div class="right-column">
+      <div class="figure">
+        <img src="fig1_overview.png" alt="gLike overview figure">
+      </div>
+    </div>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 4 — Graph of States
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Graph of States">
+  <div class="slide-number-ghost">04</div>
 
-<!-- Slide 5 -->
+  <h1>Graph of States</h1>
+  <h2>Central object: Graph of States (GOS)</h2>
 
-<section class="slide">
+  <div class="two-column">
+    <div class="left-column">
 
-<h1>Limitation</h1>
+      <p>A <strong>state</strong> is an assignment of every active lineage to a population:</p>
 
-<h2>Continuous migration</h2>
+      <div class="equation">$$\mathbf{s} = (p_1, p_2, \ldots, p_n), \quad p_i \in \{1, \ldots, K\}$$</div>
 
-<p>Suppose migration is described by</p>
+      <p class="bio-note">Biologically: which present-day deme is each ancestral chromosome currently residing in?</p>
 
-<div class="equation">
-$$
-M(t)
-$$
-</div>
+      <p><strong>Technical motivation:</strong> between coalescence events, lineages migrate according to migration matrix \(M\). The GOS encodes which configurations are reachable and with what probability, so we can sum over all lineage histories without enumerating trajectories explicitly.</p>
 
-<ul>
+      <p><strong>Algorithm:</strong></p>
+      <ul>
+        <li>identify possible lineage populations at each epoch</li>
+        <li>construct GOS — nodes are states, edges are migration/coalescence events</li>
+        <li>compute conditional probabilities along branches (matrix exponential)</li>
+        <li>propagate marginal probabilities forward in time</li>
+        <li>sum over root states</li>
+      </ul>
 
-<li>lineages may migrate at every instant</li>
+    </div>
+    <div class="right-column">
+      <!-- GOS diagram -->
+      <svg viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg" class="gos-svg">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="var(--accent)"/>
+          </marker>
+        </defs>
+        <!-- epoch labels -->
+        <text x="10" y="40"  font-size="11" fill="var(--text-muted)" font-family="Inter">t₃ (root)</text>
+        <text x="10" y="130" font-size="11" fill="var(--text-muted)" font-family="Inter">t₂</text>
+        <text x="10" y="230" font-size="11" fill="var(--text-muted)" font-family="Inter">t₁</text>
+        <text x="10" y="320" font-size="11" fill="var(--text-muted)" font-family="Inter">t₀ (leaves)</text>
+        <!-- root state -->
+        <rect x="110" y="20" width="60" height="28" rx="6" fill="var(--accent)" opacity=".25" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="140" y="38" text-anchor="middle" font-size="12" fill="var(--accent)" font-family="Inter" font-weight="600">(A,A)</text>
+        <!-- t2 states -->
+        <rect x="50"  y="110" width="60" height="28" rx="6" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="80"  y="128" text-anchor="middle" font-size="12" fill="var(--accent)" font-family="Inter" font-weight="600">(A,B)</text>
+        <rect x="170" y="110" width="60" height="28" rx="6" fill="var(--accent)" opacity=".15" stroke="var(--accent)" stroke-width="1.5"/>
+        <text x="200" y="128" text-anchor="middle" font-size="12" fill="var(--accent)" font-family="Inter" font-weight="600">(B,A)</text>
+        <!-- t1 states -->
+        <rect x="30"  y="210" width="60" height="28" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="60"  y="228" text-anchor="middle" font-size="12" fill="var(--text)" font-family="Inter">(A,A)</text>
+        <rect x="110" y="210" width="60" height="28" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="140" y="228" text-anchor="middle" font-size="12" fill="var(--text)" font-family="Inter">(A,B)</text>
+        <rect x="190" y="210" width="60" height="28" rx="6" fill="var(--card-bg)" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="220" y="228" text-anchor="middle" font-size="12" fill="var(--text)" font-family="Inter">(B,B)</text>
+        <!-- leaf labels -->
+        <text x="60"  y="305" text-anchor="middle" font-size="11" fill="var(--text-muted)" font-family="Inter">leaf A</text>
+        <text x="220" y="305" text-anchor="middle" font-size="11" fill="var(--text-muted)" font-family="Inter">leaf B</text>
+        <circle cx="60"  cy="315" r="7" fill="var(--accent-gold)" opacity=".8"/>
+        <circle cx="220" cy="315" r="7" fill="var(--accent-gold)" opacity=".8"/>
+        <!-- edges root → t2 -->
+        <line x1="130" y1="48"  x2="95"  y2="110" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arr)" opacity=".6"/>
+        <line x1="150" y1="48"  x2="185" y2="110" stroke="var(--accent)" stroke-width="1.5" marker-end="url(#arr)" opacity=".6"/>
+        <!-- edges t2 → t1 -->
+        <line x1="80"  y1="138" x2="60"  y2="210" stroke="var(--accent)" stroke-width="1" marker-end="url(#arr)" opacity=".4"/>
+        <line x1="85"  y1="138" x2="140" y2="210" stroke="var(--accent)" stroke-width="1" marker-end="url(#arr)" opacity=".4"/>
+        <line x1="200" y1="138" x2="140" y2="210" stroke="var(--accent)" stroke-width="1" marker-end="url(#arr)" opacity=".4"/>
+        <line x1="205" y1="138" x2="220" y2="210" stroke="var(--accent)" stroke-width="1" marker-end="url(#arr)" opacity=".4"/>
+        <!-- edges t1 → leaves -->
+        <line x1="60"  y1="238" x2="60"  y2="307" stroke="var(--text-muted)" stroke-width="1" opacity=".5"/>
+        <line x1="220" y1="238" x2="220" y2="307" stroke="var(--text-muted)" stroke-width="1" opacity=".5"/>
+      </svg>
 
-<li>configurations communicate continuously</li>
+      <p class="caption">Each node is a population assignment; edges are migration transitions weighted by \(e^{M\delta t}\).</p>
 
-<li>the graph of states becomes intractable</li>
+      <div class="pill-row">
+        <span class="pill good">Exact likelihood</span>
+        <span class="pill good">No trajectory enumeration</span>
+        <span class="pill good">Accurate for pulse admixture</span>
+      </div>
 
-</ul>
-
-<p>The number of configurations grows as</p>
-
-<div class="equation">
-
-$$
-K^n
-$$
-
-</div>
-
-<h2>Question</h2>
-
-<p>
-Can we integrate over continuous lineage trajectories without enumerating states?
-</p>
-
-</section>
-
-
-
-<!-- Slide 6 -->
-
-<section class="slide">
-
-<h1>Structured Coalescent Likelihood</h1>
-
-<div class="equation">
-
-$$
-L=
-\sum_x
-P(x|\mathrm{mig})
-\prod_a\delta_{x_a,k_a}
-\prod_s
-\frac{1}{2N_{x_s}(t_s)}
-\exp\left(
--\int\lambda(t;x)dt
-\right)
-$$
-
-</div>
-
-<p>where</p>
-
-<div class="equation">
-
-$$
-\lambda(t;x)
-=
-\sum_k
-\frac1{2N_k(t)}
-\binom{\ell_k(t;x)}2
-$$
-
-</div>
-
-<h2>Difficulty</h2>
-
-<p>Integrating over all trajectory assignments \(x\).</p>
-
-</section>
-
-
-
-<!-- Slide 7 -->
-
-<section class="slide">
-
-<h1>Main Idea</h1>
-
-<div class="equation">
-
-$$
-L=
-L_{\mathrm{peel}}
-\cdot
-E_Q
-\left[
-e^{-\int\lambda dt}
-\right]
-$$
-
-</div>
-
-<p>This decomposition is exact.</p>
-
-<h2>Pass I</h2>
-
-<p>Compute \(L_{\mathrm{peel}}\)</p>
-
-<h2>Pass II</h2>
-
-<p>Approximate the survival term without constructing a graph of states.</p>
+    </div>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 5 — Limitation
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Limitation">
+  <div class="slide-number-ghost">05</div>
 
-<!-- Slide 8 -->
+  <h1>Limitation</h1>
+  <h2>Continuous migration</h2>
 
-<section class="slide">
+  <div class="two-column">
+    <div class="left-column">
 
-<h1>Backward Pass</h1>
+      <p>Suppose migration is described by a rate matrix</p>
+      <div class="equation">$$M(t)$$</div>
 
-<h2>Felsenstein pruning under the structured coalescent</h2>
+      <ul>
+        <li>lineages may migrate at every instant</li>
+        <li>configurations communicate continuously</li>
+        <li>the graph of states becomes intractable</li>
+      </ul>
 
-<div class="equation">
+      <p>The number of configurations grows as</p>
+      <div class="equation">$$K^n$$</div>
 
-$$
-L_a(k,t)
-=
-P(\text{subtree below }a\mid a\in k)
-$$
+      <div class="callout callout-warn">
+        <strong>Concrete scale:</strong> with \(K = 5\) populations and \(n = 10\) lineages, that is nearly <strong>10 million states</strong>. With \(K = 10, n = 20\) it is \(10^{20}\).
+      </div>
 
-</div>
+      <h2>Question</h2>
+      <p>Can we integrate over continuous lineage trajectories without enumerating states?</p>
 
-<ul>
+    </div>
+    <div class="left-column">
 
-<li>Leaf initialization</li>
+      <p class="bio-note"><strong>Biological motivation:</strong> Real populations do not exchange migrants in discrete pulses. Dispersal is continuous — isolation by distance, range expansions along river systems, gene flow across a cline. A model with a continuous migration rate matrix \(M(t)\) is the natural description of these processes.</p>
 
-</ul>
+      <!-- Pulse vs continuous diagram -->
+      <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-top:16px">
+        <!-- axes -->
+        <line x1="30" y1="140" x2="240" y2="140" stroke="var(--border)" stroke-width="1.5"/>
+        <line x1="30" y1="20"  x2="30"  y2="140" stroke="var(--border)" stroke-width="1.5"/>
+        <text x="135" y="158" text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter">time</text>
+        <text x="10"  y="82"  text-anchor="middle" font-size="10" fill="var(--text-muted)" font-family="Inter" transform="rotate(-90,10,82)">migration</text>
+        <!-- pulse model (bars) -->
+        <rect x="55"  y="80" width="12" height="60" fill="var(--accent)" opacity=".5"/>
+        <rect x="105" y="60" width="12" height="80" fill="var(--accent)" opacity=".5"/>
+        <rect x="165" y="90" width="12" height="50" fill="var(--accent)" opacity=".5"/>
+        <!-- continuous curve -->
+        <path d="M40,120 C60,100 80,70 110,55 S160,65 200,50 S230,55 240,60"
+              stroke="var(--accent-gold)" stroke-width="2" fill="none"/>
+        <!-- legend -->
+        <rect x="50"  y="18" width="10" height="10" fill="var(--accent)" opacity=".5"/>
+        <text x="65"  y="27" font-size="10" fill="var(--text-muted)" font-family="Inter">pulse</text>
+        <line x1="110" y1="23" x2="130" y2="23" stroke="var(--accent-gold)" stroke-width="2"/>
+        <text x="134" y="27" font-size="10" fill="var(--text-muted)" font-family="Inter">continuous</text>
+      </svg>
 
-<div class="equation">
-
-$$
-L_a(k)=\delta_{k,k_a}
-$$
-
-</div>
-
-<ul>
-
-<li>Branch propagation</li>
-
-</ul>
-
-<div class="equation">
-
-$$
-\tilde L_a(j)
-=
-\sum_k T_{jk}(\delta)L_a(k)
-$$
-
-</div>
-
-<ul>
-
-<li>Coalescence merge</li>
-
-</ul>
-
-<div class="equation">
-
-$$
-L_c(k)
-=
-\frac1{2N_k}
-\tilde L_a(k)
-\tilde L_b(k)
-$$
-
-</div>
-
-<h2>Output</h2>
-
-<div class="equation">
-
-$$
-L_{\rm peel}
-$$
-
-</div>
-
-<p>Complexity:</p>
-
-<div class="equation">
-
-$$
-O(nK^2)
-$$
-
-</div>
+    </div>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 6 — Structured Coalescent Likelihood
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Structured Coalescent">
+  <div class="slide-number-ghost">06</div>
 
-<!-- Slide 9 -->
+  <h1>Structured Coalescent Likelihood</h1>
 
-<section class="slide">
+  <div class="equation">
+    $$L = \sum_x P(x \mid \mathrm{mig}) \prod_a \delta_{x_a, k_a} \prod_s \frac{1}{2N_{x_s}(t_s)} \exp\!\left(-\int \lambda(t;\,x)\,dt\right)$$
+  </div>
 
-<h1>Why a Second Pass?</h1>
+  <p>where</p>
 
-<ul>
+  <div class="equation">
+    $$\lambda(t;\,x) = \sum_k \frac{1}{2N_k(t)} \binom{\ell_k(t;\,x)}{2}$$
+  </div>
 
-<li>Backward pass gives
+  <div class="callout">
+    <p><strong>Reading the formula:</strong> \(x\) is a complete trajectory assigning each lineage to a population at every moment. \(\lambda(t;x)\) is the total coalescence rate given those assignments — it sums over populations the rate at which pairs of lineages in that population coalesce. The exponential is the probability of <em>no</em> coalescence between recorded events (survival term).</p>
+  </div>
 
-$$
-P(\text{descendants}\mid\text{location})
-$$
-
-</li>
-
-<li>Contains no information about ancestry above a node.</li>
-
-<li>Need
-
-$$
-P(\text{location}\mid\text{ancestral history})
-$$
-
-</li>
-
-<li>Hence a forward pass is required.</li>
-
-</ul>
+  <h2>Difficulty</h2>
+  <p>Integrating over all trajectory assignments \(x\) — this is a sum over uncountably many continuous paths.</p>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 7 — Main Idea
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Main Idea">
+  <div class="slide-number-ghost">07</div>
 
-<!-- Slide 10 -->
+  <h1>Main Idea</h1>
 
-<section class="slide">
+  <div class="equation big-eq">
+    $$L = L_{\mathrm{peel}} \cdot E_Q\!\left[e^{-\int \lambda\,dt}\right]$$
+  </div>
 
-<h1>Forward Pass</h1>
+  <p>This decomposition is <strong>exact</strong>.</p>
 
-<h2>Pairwise location priors</h2>
-
-<p>Track marginals</p>
-
-<div class="equation">
-
-$$
-\pi_{a,k}(t)
-$$
-
-</div>
-
-<p>Track pairwise moments</p>
-
-<div class="equation">
-
-$$
-\Pi_{ab}(j,k;t)
-$$
-
-</div>
-
-<p>Evolution equations:</p>
-
-<div class="equation">
-
-$$
-\pi_a(t+\delta)
-=
-\pi_a(t)T(\delta)
-$$
-
-</div>
-
-<div class="equation">
-
-$$
-\Pi_{ab}(t+\delta)
-=
-T^T
-\Pi_{ab}(t)
-T
-$$
-
-</div>
-
-<p>Complexity:</p>
-
-<div class="equation">
-
-$$
-O(n^2K^2)
-$$
-
-</div>
+  <div class="two-column" style="margin-top:30px">
+    <div class="highlight">
+      <h2>Pass I</h2>
+      <p>Compute \(L_{\mathrm{peel}}\) via Felsenstein pruning — a backward pass that integrates over migration using the transition matrix.</p>
+    </div>
+    <div class="highlight">
+      <h2>Pass II</h2>
+      <p>Approximate the <strong>survival term</strong> \(E_Q[e^{-\int \lambda\,dt}]\) without constructing a graph of states — instead, track low-order moments of the lineage location distribution.</p>
+    </div>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 8 — Backward Pass
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Backward Pass">
+  <div class="slide-number-ghost">08</div>
 
-<!-- Slide 11 -->
+  <h1>Backward Pass</h1>
+  <h2>Felsenstein pruning under the structured coalescent</h2>
 
-<section class="slide">
+  <div class="equation">
+    $$L_a(k,\,t) = P(\text{subtree below }a \mid a \in k)$$
+  </div>
 
-<h1>Combining Both Passes</h1>
+  <div class="three-column">
+    <div class="step-card">
+      <div class="step-label">Leaf initialization</div>
+      <div class="equation">$$L_a(k) = \delta_{k,\,k_a}$$</div>
+      <p>A leaf in population \(k_a\) has probability 1 of being there, 0 elsewhere.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-label">Branch propagation</div>
+      <div class="equation">$$\tilde{L}_a(j) = \sum_k T_{jk}(\delta)\,L_a(k)$$</div>
+      <p>Smear the likelihood up the branch via the migration transition matrix \(T = e^{M\delta}\).</p>
+    </div>
+    <div class="step-card">
+      <div class="step-label">Coalescence merge</div>
+      <div class="equation">$$L_c(k) = \frac{1}{2N_k}\,\tilde{L}_a(k)\,\tilde{L}_b(k)$$</div>
+      <p>Two lineages coalesce in population \(k\) at rate \(1/2N_k\); both must be in the same deme.</p>
+    </div>
+  </div>
 
-<div class="equation">
-
-$$
-\gamma_{ab}(j,k;t)
-\propto
-\Pi_{ab}(j,k;t)
-L_a(j,t)
-L_b(k,t)
-$$
-
-</div>
-
-<p>Posterior co-location probability:</p>
-
-<div class="equation">
-
-$$
-c_{ab,k}^{(\mathrm{post})}(t)
-$$
-
-</div>
-
-<p>Expected coalescence rate:</p>
-
-<div class="equation">
-
-$$
-E_Q[\lambda(t)]
-=
-\sum_{a<b}
-\sum_k
-\frac{
-c_{ab,k}^{(\mathrm{post})}(t)
-}
-{2N_k(t)}
-$$
-
-</div>
+  <div class="highlight" style="margin-top:24px">
+    <p><strong>Output:</strong> \(L_{\rm peel}\) &nbsp;·&nbsp; Complexity: \(O(nK^2)\)</p>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 9 — Why a Second Pass
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Why a Second Pass">
+  <div class="slide-number-ghost">09</div>
 
-<!-- Slide 12 -->
+  <h1>Why a Second Pass?</h1>
 
-<section class="slide">
+  <div class="two-column">
+    <div class="left-column">
+      <ul>
+        <li>Backward pass gives
+          $$P(\text{descendants} \mid \text{location})$$
+        </li>
+        <li>Contains no information about ancestry <em>above</em> a node.</li>
+        <li>Need
+          $$P(\text{location} \mid \text{ancestral history})$$
+        </li>
+        <li>Hence a forward pass is required.</li>
+      </ul>
 
-<h1>Mean-Field Approximation</h1>
+      <p class="bio-note"><strong>Biological intuition:</strong> The backward pass asks "given where this lineage is, what is the probability of the observed descendants?" But to compute the coalescence survival term we need to know, for each pair of lineages, how likely they are to be in the same deme at the same time — information about their <em>joint</em> location history, which depends on where they came from.</p>
+    </div>
+    <div class="right-column">
 
-<h2>Only approximation in the algorithm</h2>
+      <!-- Intuition diagram: two passes on a branch -->
+      <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:260px;margin:auto;display:block">
+        <!-- branch -->
+        <line x1="100" y1="20"  x2="100" y2="220" stroke="var(--border)" stroke-width="2"/>
+        <!-- backward arrow -->
+        <line x1="140" y1="80"  x2="140" y2="180" stroke="var(--accent)" stroke-width="2" marker-end="url(#arr2)"/>
+        <text x="160" y="135" font-size="10" fill="var(--accent)" font-family="Inter">backward</text>
+        <text x="155" y="147" font-size="10" fill="var(--accent)" font-family="Inter">(Pass I)</text>
+        <!-- forward arrow -->
+        <line x1="60"  y1="180" x2="60"  y2="80"  stroke="var(--accent-gold)" stroke-width="2" marker-end="url(#arr3)"/>
+        <text x="6"  y="135" font-size="10" fill="var(--accent-gold)" font-family="Inter">forward</text>
+        <text x="5"  y="147" font-size="10" fill="var(--accent-gold)" font-family="Inter">(Pass II)</text>
+        <!-- nodes -->
+        <circle cx="100" cy="20"  r="7" fill="var(--accent)" opacity=".8"/>
+        <circle cx="100" cy="220" r="7" fill="var(--accent-gold)" opacity=".8"/>
+        <text x="100" y="12"  text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">ancestor</text>
+        <text x="100" y="238" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">leaf</text>
+        <defs>
+          <marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="var(--accent)"/>
+          </marker>
+          <marker id="arr3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="var(--accent-gold)"/>
+          </marker>
+        </defs>
+      </svg>
 
-<div class="equation">
+    </div>
+  </div>
 
-$$
-E_Q
-\left[
-e^{-\int\lambda dt}
-\right]
-\approx
-\exp
-\left(
--\int
-E_Q[\lambda(t)]dt
-\right)
-$$
+</section>
 
-</div>
 
-<p>Therefore</p>
+<!-- ══════════════════════════════════════════
+     Slide 10 — Forward Pass
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Forward Pass">
+  <div class="slide-number-ghost">10</div>
 
-<div class="equation">
+  <h1>Forward Pass</h1>
+  <h2>Pairwise location priors</h2>
 
-$$
-\log L
-=
-\log L_{\rm peel}
--
-\int
-E_Q[\lambda(t)]dt
-$$
+  <div class="two-column">
+    <div class="left-column">
+      <p>Track <strong>marginals</strong></p>
+      <div class="equation">$$\pi_{a,k}(t) = P(\text{lineage }a\text{ in pop }k\text{ at time }t)$$</div>
 
-</div>
+      <p>Track <strong>pairwise moments</strong></p>
+      <div class="equation">$$\Pi_{ab}(j,k;\,t) = P(\text{lin. }a\text{ in }j,\;\text{lin. }b\text{ in }k\text{ at }t)$$</div>
 
-<p>Everything else is exact.</p>
+      <p>Evolution equations:</p>
+      <div class="equation">$$\pi_a(t+\delta) = \pi_a(t)\,T(\delta)$$</div>
+      <div class="equation">$$\Pi_{ab}(t+\delta) = T^{\!\top}\,\Pi_{ab}(t)\,T$$</div>
+    </div>
+    <div class="right-column">
+      <div class="callout">
+        <p><strong>Why pairwise moments?</strong> The coalescence rate depends on <em>pairs</em> of lineages co-locating in the same deme. A single marginal \(\pi_{a,k}\) cannot capture correlations between two lineages — we need the joint distribution \(\Pi_{ab}\).</p>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <p><strong>Complexity:</strong> \(O(n^2 K^2)\) — quadratic in lineage count because we track all pairs, quadratic in population count for the matrix multiplications.</p>
+      </div>
+    </div>
+  </div>
 
 </section>
 
 
+<!-- ══════════════════════════════════════════
+     Slide 11 — Combining Both Passes
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Combining Passes">
+  <div class="slide-number-ghost">11</div>
 
-<!-- Slide 13 -->
+  <h1>Combining Both Passes</h1>
 
-<section class="slide">
+  <div class="equation">
+    $$\gamma_{ab}(j,k;\,t) \;\propto\; \Pi_{ab}(j,k;\,t)\;L_a(j,t)\;L_b(k,t)$$
+  </div>
 
-<h1>Future Directions</h1>
+  <div class="two-column">
+    <div class="left-column">
+      <p>Posterior co-location probability:</p>
+      <div class="equation">$$c_{ab,k}^{(\mathrm{post})}(t) = \sum_j \gamma_{ab}(j,k;\,t)\,\mathbf{1}[j=k]$$</div>
 
-<ul>
-
-<li>Triplet moments</li>
-
-<li>Cumulant expansions</li>
-
-<li>Boundary-layer corrections</li>
-
-<li>Ancient DNA integration</li>
-
-<li>Full ARG likelihoods</li>
-
-</ul>
-
-<h2>Goal</h2>
-
-<p>
-A continuous-migration analogue of gLike that avoids graph-of-state enumeration.
-</p>
+      <p>Expected coalescence rate:</p>
+      <div class="equation">
+        $$E_Q[\lambda(t)] = \sum_{a &lt; b}\sum_k \frac{c_{ab,k}^{(\mathrm{post})}(t)}{2N_k(t)}$$
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="callout">
+        <p><strong>Interpretation:</strong> \(\gamma_{ab}\) combines two sources of evidence — the forward pass tells us where the lineages are likely to <em>be</em> (prior from ancestors), the backward pass tells us what that implies for <em>descendants</em> (likelihood). Their product, normalized, is the posterior.</p>
+        <p style="margin-top:12px">Integrating \(E_Q[\lambda(t)]\) gives the expected total coalescence opportunity — the key ingredient in the survival term.</p>
+      </div>
+    </div>
+  </div>
 
 </section>
 
-  <script src="script.js"></script>
 
-</body>
-</html>
+<!-- ══════════════════════════════════════════
+     Slide 12 — Mean-Field Approximation
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Mean-Field">
+  <div class="slide-number-ghost">12</div>
+
+  <h1>Mean-Field Approximation</h1>
+  <h2>Only approximation in the algorithm</h2>
+
+  <div class="equation big-eq">
+    $$E_Q\!\left[e^{-\int\lambda\,dt}\right] \;\approx\; \exp\!\left(-\int E_Q[\lambda(t)]\,dt\right)$$
+  </div>
+
+  <div class="two-column" style="margin-top:20px">
+    <div class="left-column">
+
+      <p>Therefore</p>
+      <div class="equation">$$\log L = \log L_{\rm peel} - \int E_Q[\lambda(t)]\,dt$$</div>
+      <p>Everything else is exact.</p>
+
+      <div class="callout callout-warn" style="margin-top:20px">
+        <p><strong>Why approximation is needed:</strong> The survival term \(E[e^{-\int\lambda\,dt}]\) is the moment-generating function of an integral of a continuous-time Markov chain. No closed form is known in general — exact computation would require the full joint distribution over all lineage trajectories, i.e., the intractable GOS.</p>
+      </div>
+
+    </div>
+    <div class="right-column">
+      <div class="callout">
+        <p><strong>Quality of the approximation:</strong> This is Jensen's inequality applied to the convex function \(e^{-x}\), so the approximation is a <em>lower bound</em> on the true \(E[e^{-\int\lambda\,dt}]\). The gap is controlled by the variance of \(\int\lambda\,dt\) under \(Q\).</p>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <p><strong>Ways to improve:</strong> Higher-order cumulant corrections — using triplet moments (third-order) gives a tighter bound. Cumulant expansion: \(\log E[e^{-X}] \approx -\kappa_1 + \tfrac{1}{2}\kappa_2 - \cdots\) where \(\kappa_i\) are cumulants of \(\int\lambda\,dt\).</p>
+      </div>
+
+      <div class="callout" style="margin-top:16px">
+        <p><strong>Mean-field is easy to implement</strong> — the result is a simple integral over the expected rate, computable in a single forward-backward sweep with no additional data structures.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     Slide 13 — Future Directions
+══════════════════════════════════════════ -->
+<section class="slide" data-label="Future Directions">
+  <div class="slide-number-ghost">13</div>
+
+  <h1>Future Directions</h1>
+
+  <div class="two-column">
+    <div class="left-column">
+      <h2>Theoretical extensions</h2>
+      <ul>
+        <li><strong>Triplet moments</strong> — track \(P(a\in j, b\in k, c\in \ell)\) to improve the cumulant approximation</li>
+        <li><strong>Cumulant expansions</strong> — systematic corrections beyond the mean-field via \(\kappa_2, \kappa_3, \ldots\)</li>
+        <li><strong>Boundary-layer corrections</strong> — near coalescence events the mean-field approximation degrades; dedicated corrections at event boundaries</li>
+        <li><strong>Ancient DNA integration</strong> — internal nodes with known population labels from ancient samples</li>
+        <li><strong>Full ARG likelihoods</strong> — extend from trees to ancestral recombination graphs</li>
+      </ul>
+    </div>
+    <div class="right-column">
+      <h2>Implementation</h2>
+      <ul>
+        <li><strong>Draft of code</strong> — the mean-field forward-backward algorithm is straightforward to implement: a pair of matrix-ODE solvers, one backward (Felsenstein) and one forward (moment propagation)</li>
+        <li><strong>Connection to gLike</strong> — the continuous-migration framework should reproduce gLike results in the limit of pulse migration, providing a natural validation</li>
+        <li><strong>Coherent paper and theory</strong> — formalize the connection to the structured coalescent literature and establish theoretical error bounds on the mean-field approximation</li>
+      </ul>
+
+      <div class="highlight" style="margin-top:20px">
+        <h2 style="margin-bottom:8px">Goal</h2>
+        <p>A continuous-migration analogue of gLike that avoids graph-of-state enumeration, is easy to implement, and admits systematic improvement through higher-order moment corrections.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+
+<script src="script.js"></script>
 </body>
 </html>
