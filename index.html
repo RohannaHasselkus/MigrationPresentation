@@ -560,44 +560,6 @@ MathJax = {
 
 </section>
 
-
-<!-- ══════════════════════════════════════════
-     Slide 13 — Future Directions
-══════════════════════════════════════════ -->
-<section class="slide" data-label="Future Directions">
-  <div class="slide-number-ghost">13</div>
-
-  <h1>Future Directions</h1>
-
-  <div class="two-column">
-    <div class="left-column">
-      <h2>Theoretical extensions</h2>
-      <ul>
-        <li><strong>Triplet moments</strong> — track \(P(a\in j, b\in k, c\in \ell)\) to improve the cumulant approximation</li>
-        <li><strong>Cumulant expansions</strong> — systematic corrections beyond the mean-field via \(\kappa_2, \kappa_3, \ldots\)</li>
-        <li><strong>Boundary-layer corrections</strong> — near coalescence events the mean-field approximation degrades; dedicated corrections at event boundaries</li>
-        <li><strong>Ancient DNA integration</strong> — internal nodes with known population labels from ancient samples</li>
-        <li><strong>Full ARG likelihoods</strong> — extend from trees to ancestral recombination graphs</li>
-      </ul>
-    </div>
-    <div class="right-column">
-      <h2>Implementation</h2>
-      <ul>
-        <li><strong>Draft of code</strong> — the mean-field forward-backward algorithm is straightforward to implement: a pair of matrix-ODE solvers, one backward (Felsenstein) and one forward (moment propagation)</li>
-        <li><strong>Connection to gLike</strong> — the continuous-migration framework should reproduce gLike results in the limit of pulse migration, providing a natural validation</li>
-        <li><strong>Coherent paper and theory</strong> — formalize the connection to the structured coalescent literature and establish theoretical error bounds on the mean-field approximation</li>
-      </ul>
-
-      <div class="highlight" style="margin-top:20px">
-        <h2 style="margin-bottom:8px">Goal</h2>
-        <p>A continuous-migration analogue of gLike that avoids graph-of-state enumeration, is easy to implement, and admits systematic improvement through higher-order moment corrections.</p>
-      </div>
-    </div>
-  </div>
-
-</section>
-
-
 <script src="script.js"></script>
 </body>
 </html>
