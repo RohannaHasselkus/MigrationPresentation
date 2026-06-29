@@ -107,34 +107,46 @@ MathJax = {
 
 </section>
 
-
 <!-- ══════════════════════════════════════════
-     Slide 3 — Biological Setting (NEW)
+     Slide 3 — Biological Setting
 ══════════════════════════════════════════ -->
 <section class="slide" data-label="Biological Setting">
   <div class="slide-number-ghost">03</div>
 
   <h1>Biological Setting</h1>
-  <h2>What does a genealogy encode, and why does it matter?</h2>
+  <h2>What does a genealogy encode?</h2>
 
   <div class="two-column">
     <div class="left-column">
 
-      <p><strong>The coalescent, in plain terms:</strong> take a sample of chromosomes from living individuals today. Trace each chromosome back through time — through parents, grandparents, and so on. Eventually, any two chromosomes share a common ancestor. That moment of merger is a <em>coalescence event</em>.</p>
-
       <ul>
-        <li>The <strong>tree topology</strong> tells us <em>which</em> chromosomes share an ancestor first.</li>
-        <li>The <strong>branch lengths</strong> (coalescence times) tell us <em>when</em> those ancestors lived.</li>
-        <li>Together they encode the demographic history of the population.</li>
+        <li><strong>Genealogies summarize shared ancestry</strong> among sampled chromosomes.</li>
+        <li>Each internal node represents a <strong>coalescence event</strong> (most recent common ancestor).</li>
+        <li>Branch lengths record the <strong>time between coalescence events</strong>.</li>
       </ul>
 
       <div class="callout" style="margin-top:18px">
-        <p><strong>A small population</strong> means more competition for ancestors — coalescence happens fast, and branch lengths are short. A <strong>large population</strong> means ancestors are spread out — branches are long. This is how genealogies encode \(N(t)\).</p>
+        <strong>Population size shapes genealogies</strong>
+        <ul style="margin-top:8px">
+          <li>Small populations → rapid coalescence → shorter branches</li>
+          <li>Large populations → slower coalescence → longer branches</li>
+        </ul>
       </div>
 
-      <p style="margin-top:14px"><strong>Structured populations</strong> add geography: chromosomes carry information about which deme their ancestors lived in. A lineage sampled in Europe today may have ancestors that spent thousands of generations in Africa. The genealogy encodes this movement.</p>
+      <ul style="margin-top:18px">
+        <li>In structured populations, each lineage also has a <strong>population assignment</strong>.</li>
+        <li>Migration changes these assignments through time.</li>
+        <li>Together, genealogy and lineage locations encode:
+          <ul>
+            <li>effective population size</li>
+            <li>population structure</li>
+            <li>migration history</li>
+          </ul>
+        </li>
+      </ul>
 
     </div>
+
     <div class="right-column">
 
       <!-- Coalescent diagram: 4 leaves, 3 coalescences, two populations -->
@@ -148,62 +160,61 @@ MathJax = {
         <!-- Population shading -->
         <rect x="18" y="20" width="100" height="265" rx="8" fill="var(--accent)" opacity=".06" stroke="var(--accent)" stroke-width="1" stroke-dasharray="4,3"/>
         <rect x="142" y="20" width="100" height="265" rx="8" fill="var(--accent-gold)" opacity=".06" stroke="var(--accent-gold)" stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="68"  y="14" text-anchor="middle" font-size="10" fill="var(--accent)" font-family="Inter" font-weight="600">Pop A</text>
+        <text x="68" y="14" text-anchor="middle" font-size="10" fill="var(--accent)" font-family="Inter" font-weight="600">Pop A</text>
         <text x="192" y="14" text-anchor="middle" font-size="10" fill="var(--accent-gold)" font-family="Inter" font-weight="600">Pop B</text>
 
         <!-- Time axis -->
         <line x1="8" y1="270" x2="8" y2="30" stroke="var(--border)" stroke-width="1.2" marker-end="url(#arrB)"/>
         <text x="5" y="285" font-size="9" fill="var(--text-muted)" font-family="Inter">present</text>
-        <text x="5" y="35"  font-size="9" fill="var(--text-muted)" font-family="Inter">past</text>
+        <text x="5" y="35" font-size="9" fill="var(--text-muted)" font-family="Inter">past</text>
 
         <!-- Leaves -->
-        <circle cx="55"  cy="270" r="6" fill="var(--accent)" opacity=".85"/>
-        <circle cx="90"  cy="270" r="6" fill="var(--accent)" opacity=".85"/>
+        <circle cx="55" cy="270" r="6" fill="var(--accent)" opacity=".85"/>
+        <circle cx="90" cy="270" r="6" fill="var(--accent)" opacity=".85"/>
         <circle cx="165" cy="270" r="6" fill="var(--accent-gold)" opacity=".85"/>
         <circle cx="210" cy="270" r="6" fill="var(--accent-gold)" opacity=".85"/>
-        <text x="55"  cy="270" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">a</text>
-        <text x="90"  cy="270" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">b</text>
-        <text x="165" cy="270" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">c</text>
-        <text x="210" cy="270" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">d</text>
 
-        <!-- Coal 1: a,b coalesce at t=200 in Pop A -->
-        <line x1="55"  y1="270" x2="55"  y2="200" stroke="var(--accent)"      stroke-width="1.8" opacity=".7"/>
-        <line x1="90"  y1="270" x2="90"  y2="200" stroke="var(--accent)"      stroke-width="1.8" opacity=".7"/>
-        <line x1="55"  y1="200" x2="90"  y2="200" stroke="var(--accent)"      stroke-width="1.8" opacity=".7"/>
+        <text x="55" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">a</text>
+        <text x="90" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">b</text>
+        <text x="165" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">c</text>
+        <text x="210" y="286" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter">d</text>
+
+        <!-- Coal 1 -->
+        <line x1="55" y1="270" x2="55" y2="200" stroke="var(--accent)" stroke-width="1.8" opacity=".7"/>
+        <line x1="90" y1="270" x2="90" y2="200" stroke="var(--accent)" stroke-width="1.8" opacity=".7"/>
+        <line x1="55" y1="200" x2="90" y2="200" stroke="var(--accent)" stroke-width="1.8" opacity=".7"/>
         <circle cx="72" cy="200" r="5" fill="var(--accent)" opacity=".9"/>
         <text x="95" y="203" font-size="9" fill="var(--text-muted)" font-family="Inter">coal. 1</text>
 
-        <!-- Coal 2: c,d coalesce at t=180 in Pop B -->
+        <!-- Coal 2 -->
         <line x1="165" y1="270" x2="165" y2="180" stroke="var(--accent-gold)" stroke-width="1.8" opacity=".7"/>
         <line x1="210" y1="270" x2="210" y2="180" stroke="var(--accent-gold)" stroke-width="1.8" opacity=".7"/>
         <line x1="165" y1="180" x2="210" y2="180" stroke="var(--accent-gold)" stroke-width="1.8" opacity=".7"/>
         <circle cx="187" cy="180" r="5" fill="var(--accent-gold)" opacity=".9"/>
         <text x="216" y="183" font-size="9" fill="var(--text-muted)" font-family="Inter">coal. 2</text>
 
-        <!-- Migration: lineage from Pop B crosses to Pop A before root coal -->
-        <line x1="72"  y1="200" x2="72"  y2="100" stroke="var(--accent)"      stroke-width="1.8" opacity=".6"/>
+        <!-- Migration -->
+        <line x1="72" y1="200" x2="72" y2="100" stroke="var(--accent)" stroke-width="1.8" opacity=".6"/>
         <line x1="187" y1="180" x2="187" y2="130" stroke="var(--accent-gold)" stroke-width="1.8" opacity=".6"/>
-        <!-- migration arrow crossing -->
-        <line x1="187" y1="130" x2="72"  y2="100" stroke="var(--text-muted)"  stroke-width="1.2" stroke-dasharray="5,3" opacity=".6"/>
+        <line x1="187" y1="130" x2="72" y2="100" stroke="var(--text-muted)" stroke-width="1.2" stroke-dasharray="5,3" opacity=".6"/>
         <text x="125" y="112" text-anchor="middle" font-size="9" fill="var(--text-muted)" font-family="Inter" font-style="italic">migration</text>
 
-        <!-- Coal 3: root at t=70 in Pop A -->
-        <line x1="72"  y1="100" x2="72"  y2="70"  stroke="var(--accent)"      stroke-width="1.8" opacity=".6"/>
-        <line x1="187" y1="100" x2="187" y2="100" stroke="var(--accent)"      stroke-width="1.8" opacity=".6"/>
-        <!-- both feed into root -->
-        <line x1="72"  y1="70"  x2="130" y2="70"  stroke="var(--accent)"      stroke-width="1.8" opacity=".6"/>
-        <line x1="187" y1="100" x2="130" y2="70"  stroke="var(--accent)"      stroke-width="1.8" opacity=".6"/>
+        <!-- Root -->
+        <line x1="72" y1="100" x2="72" y2="70" stroke="var(--accent)" stroke-width="1.8" opacity=".6"/>
+        <line x1="187" y1="100" x2="130" y2="70" stroke="var(--accent)" stroke-width="1.8" opacity=".6"/>
+        <line x1="72" y1="70" x2="130" y2="70" stroke="var(--accent)" stroke-width="1.8" opacity=".6"/>
         <circle cx="130" cy="70" r="6" fill="var(--accent)" opacity=".9"/>
         <text x="138" y="64" font-size="9" fill="var(--text-muted)" font-family="Inter">MRCA</text>
       </svg>
 
-      <p class="caption">Four chromosomes sampled from two populations. Their genealogy records both the order of coalescence events and a migration event that crossed population boundaries.</p>
+      <p class="caption">
+        Genealogy of four sampled chromosomes from two populations. Branch lengths reflect coalescence times, while migration changes lineage population assignments through time.
+      </p>
 
     </div>
   </div>
 
 </section>
-
 
 <!-- ══════════════════════════════════════════
      Slide 4 — gLike
@@ -396,34 +407,39 @@ MathJax = {
 
 
 <!-- ══════════════════════════════════════════
-     Slide 7 — Biology of Continuous Migration (NEW)
+     Slide 7 — Biology of Continuous Migration
 ══════════════════════════════════════════ -->
 <section class="slide" data-label="Continuous Migration Biology">
   <div class="slide-number-ghost">07</div>
 
   <h1>The Biology of Continuous Migration</h1>
-  <h2>Why a rate matrix \(M(t)\) is the natural model</h2>
+  <h2>Why model migration with a rate matrix \(M(t)\)?</h2>
 
   <div class="two-column">
     <div class="left-column">
 
-      <p>In nature, most dispersal is ongoing rather than episodic. The migration rate matrix \(M\) with entry \(M_{jk}\) = rate at which a lineage moves from deme \(j\) to deme \(k\) captures this naturally.</p>
+      <ul>
+        <li>Migration is typically an <strong>ongoing process</strong>, not a series of discrete events.</li>
+        <li>\(M_{jk}\) denotes the instantaneous rate that a lineage moves from population \(j\) to population \(k\).</li>
+        <li>This framework naturally accommodates changing migration rates through time.</li>
+      </ul>
 
-      <p><strong>Three biological regimes:</strong></p>
-
-      <div class="callout" style="margin-bottom:12px">
-        <strong>Isolation by distance.</strong> Migration rate declines with geographic distance. Neighbouring demes exchange many migrants; distant demes exchange few. \(M_{jk} \propto e^{-d(j,k)/\sigma}\). Nearby lineages coalesce faster; distant ones carry distinct allele frequencies.
+      <div class="callout" style="margin-top:18px">
+        <strong>Examples</strong>
+        <ul style="margin-top:8px">
+          <li><strong>Isolation by distance</strong> — migration is highest between neighboring populations.</li>
+          <li><strong>Range expansion</strong> — migration is directional as populations colonize new regions.</li>
+          <li><strong>Secondary contact</strong> — previously isolated populations exchange migrants after reconnecting.</li>
+        </ul>
       </div>
 
-      <div class="callout" style="margin-bottom:12px">
-        <strong>Range expansion.</strong> A population spreads into new habitat over many generations. \(M_{jk}(t)\) is directional and time-varying — the wavefront advances, and lineages from the colonised range trace back through a corridor to the source.
-      </div>
-
-      <div class="callout">
-        <strong>Secondary contact / clines.</strong> Two previously isolated populations come into contact. Gene flow across the contact zone increases gradually. Allele frequency clines at selected loci reflect the balance between migration and selection.
-      </div>
+      <ul style="margin-top:18px">
+        <li>These scenarios are difficult to represent with pulse admixture alone.</li>
+        <li>A continuous migration model provides a more realistic description of lineage movement.</li>
+      </ul>
 
     </div>
+
     <div class="right-column">
 
       <!-- Stepping-stone / IBD diagram -->
@@ -437,58 +453,64 @@ MathJax = {
           </marker>
         </defs>
 
-        <!-- Title -->
         <text x="130" y="16" text-anchor="middle" font-size="11" fill="var(--text-muted)" font-family="Inter" font-weight="600">Stepping-stone model</text>
 
-        <!-- Demes: 3×2 grid -->
         <!-- Row 1 -->
-        <circle cx="55"  cy="80"  r="26" fill="var(--accent)"      opacity=".18" stroke="var(--accent)"      stroke-width="1.5"/>
-        <circle cx="130" cy="80"  r="26" fill="var(--accent)"      opacity=".18" stroke="var(--accent)"      stroke-width="1.5"/>
-        <circle cx="205" cy="80"  r="26" fill="var(--accent)"      opacity=".18" stroke="var(--accent)"      stroke-width="1.5"/>
+        <circle cx="55" cy="80" r="26" fill="var(--accent)" opacity=".18" stroke="var(--accent)" stroke-width="1.5"/>
+        <circle cx="130" cy="80" r="26" fill="var(--accent)" opacity=".18" stroke="var(--accent)" stroke-width="1.5"/>
+        <circle cx="205" cy="80" r="26" fill="var(--accent)" opacity=".18" stroke="var(--accent)" stroke-width="1.5"/>
+
         <!-- Row 2 -->
-        <circle cx="55"  cy="180" r="26" fill="var(--accent-gold)" opacity=".18" stroke="var(--accent-gold)" stroke-width="1.5"/>
+        <circle cx="55" cy="180" r="26" fill="var(--accent-gold)" opacity=".18" stroke="var(--accent-gold)" stroke-width="1.5"/>
         <circle cx="130" cy="180" r="26" fill="var(--accent-gold)" opacity=".18" stroke="var(--accent-gold)" stroke-width="1.5"/>
         <circle cx="205" cy="180" r="26" fill="var(--accent-gold)" opacity=".18" stroke="var(--accent-gold)" stroke-width="1.5"/>
 
-        <!-- Deme labels -->
-        <text x="55"  y="84"  text-anchor="middle" font-size="11" fill="var(--accent)"      font-family="Inter" font-weight="600">D1</text>
-        <text x="130" y="84"  text-anchor="middle" font-size="11" fill="var(--accent)"      font-family="Inter" font-weight="600">D2</text>
-        <text x="205" y="84"  text-anchor="middle" font-size="11" fill="var(--accent)"      font-family="Inter" font-weight="600">D3</text>
-        <text x="55"  y="184" text-anchor="middle" font-size="11" fill="var(--accent-gold)" font-family="Inter" font-weight="600">D4</text>
+        <text x="55" y="84" text-anchor="middle" font-size="11" fill="var(--accent)" font-family="Inter" font-weight="600">D1</text>
+        <text x="130" y="84" text-anchor="middle" font-size="11" fill="var(--accent)" font-family="Inter" font-weight="600">D2</text>
+        <text x="205" y="84" text-anchor="middle" font-size="11" fill="var(--accent)" font-family="Inter" font-weight="600">D3</text>
+
+        <text x="55" y="184" text-anchor="middle" font-size="11" fill="var(--accent-gold)" font-family="Inter" font-weight="600">D4</text>
         <text x="130" y="184" text-anchor="middle" font-size="11" fill="var(--accent-gold)" font-family="Inter" font-weight="600">D5</text>
         <text x="205" y="184" text-anchor="middle" font-size="11" fill="var(--accent-gold)" font-family="Inter" font-weight="600">D6</text>
 
-        <!-- Horizontal migration arrows (thick = close neighbours) -->
-        <line x1="82"  y1="78"  x2="103" y2="78"  stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
-        <line x1="103" y1="82"  x2="82"  y2="82"  stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
-        <line x1="157" y1="78"  x2="178" y2="78"  stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
-        <line x1="178" y1="82"  x2="157" y2="82"  stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <!-- Horizontal arrows -->
+        <line x1="82" y1="78" x2="103" y2="78" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <line x1="103" y1="82" x2="82" y2="82" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
 
-        <line x1="82"  y1="178" x2="103" y2="178" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
-        <line x1="103" y1="182" x2="82"  y2="182" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <line x1="157" y1="78" x2="178" y2="78" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <line x1="178" y1="82" x2="157" y2="82" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+
+        <line x1="82" y1="178" x2="103" y2="178" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <line x1="103" y1="182" x2="82" y2="182" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+
         <line x1="157" y1="178" x2="178" y2="178" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
         <line x1="178" y1="182" x2="157" y2="182" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
 
-        <!-- Vertical migration arrows -->
-        <line x1="53"  y1="107" x2="53"  y2="153" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
-        <line x1="57"  y1="153" x2="57"  y2="107" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <!-- Vertical arrows -->
+        <line x1="53" y1="107" x2="53" y2="153" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+        <line x1="57" y1="153" x2="57" y2="107" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+
         <line x1="128" y1="107" x2="128" y2="153" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
         <line x1="132" y1="153" x2="132" y2="107" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
+
         <line x1="203" y1="107" x2="203" y2="153" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
         <line x1="207" y1="153" x2="207" y2="107" stroke="var(--accent-gold)" stroke-width="2.5" marker-end="url(#mArr)" opacity=".8"/>
 
-        <!-- Diagonal (long-range) arrows — thin, faint -->
-        <line x1="78"  y1="103" x2="108" y2="158" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
+        <!-- Long-range -->
+        <line x1="78" y1="103" x2="108" y2="158" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
         <line x1="152" y1="103" x2="108" y2="158" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3" opacity=".5"/>
 
         <!-- Legend -->
         <line x1="30" y1="248" x2="60" y2="248" stroke="var(--accent-gold)" stroke-width="2.5"/>
-        <text x="65" y="252" font-size="9" fill="var(--text-muted)" font-family="Inter">high \(M_{jk}\) (neighbours)</text>
-        <line x1="30" y1="264" x2="60" y2="264" stroke="var(--border)"      stroke-width="1" stroke-dasharray="4,3"/>
-        <text x="65" y="268" font-size="9" fill="var(--text-muted)" font-family="Inter">low \(M_{jk}\) (distant demes)</text>
+        <text x="65" y="252" font-size="9" fill="var(--text-muted)" font-family="Inter">high \(M_{jk}\) (neighbors)</text>
+
+        <line x1="30" y1="264" x2="60" y2="264" stroke="var(--border)" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="65" y="268" font-size="9" fill="var(--text-muted)" font-family="Inter">low \(M_{jk}\) (distant populations)</text>
       </svg>
 
-      <p class="caption">In a stepping-stone model, migration is strongest between adjacent demes. The rate matrix \(M\) encodes this continuously — no discrete pulse events are required.</p>
+      <p class="caption">
+        Continuous migration is represented by a rate matrix. Nearby populations exchange migrants more frequently than distant populations, producing spatial population structure over time.
+      </p>
 
     </div>
   </div>
@@ -649,65 +671,125 @@ MathJax = {
 
 
 <!-- ══════════════════════════════════════════
-     Slide 12 — Biological Intuition for the Two Passes (NEW)
+     Slide 12 — Biological Intuition: The Two Passes
 ══════════════════════════════════════════ -->
 <section class="slide" data-label="Two-Pass Intuition">
   <div class="slide-number-ghost">12</div>
 
   <h1>Biological Intuition: The Two Passes</h1>
-  <h2>What each pass "knows" about an ancestral lineage</h2>
+  <h2>How the forward and backward passes complement one another</h2>
 
   <div class="two-column">
+
     <div class="left-column">
 
       <div class="callout" style="margin-bottom:18px">
-        <strong>Pass I — Backward (leaves → root).</strong>
-        <p style="margin-top:8px">Imagine you are a detective examining the <em>descendants</em> of a chromosome and asking: <em>where must this ancestor have been to produce what I see?</em></p>
-        <ul style="margin-top:8px">
-          <li>If all sampled descendants are from West Africa, the ancestor was probably there too — unless there was a great deal of migration in between.</li>
-          <li>\(L_a(k, t)\) encodes exactly this: the probability of the observed leaf data below lineage \(a\), conditional on \(a\) being in deme \(k\) at time \(t\).</li>
-          <li>It is purely <strong>data-driven</strong> — informed by what the descendants look like, not by where the ancestor came from.</li>
+        <strong>Pass I — Backward (leaves → root)</strong>
+
+        <ul style="margin-top:10px">
+          <li>Starts from the observed samples.</li>
+          <li>Evaluates which ancestral population assignments are most consistent with the genealogy.</li>
+          <li>Computes
+            $$L_a(k,t)=P(\text{descendants}\mid a\in k).$$
+          </li>
+          <li>Provides the likelihood contribution from each subtree.</li>
         </ul>
       </div>
 
       <div class="callout">
-        <strong>Pass II — Forward (root → leaves).</strong>
-        <p style="margin-top:8px">Now imagine asking: <em>given the population structure of our species' origin, where are individual ancestral chromosomes likely to wander over time?</em></p>
-        <ul style="margin-top:8px">
-          <li>Two chromosomes that coalesced very recently almost certainly share a deme — their ancestors were literally the same individual not long ago.</li>
-          <li>As time passes and migration spreads them, they drift apart stochastically.</li>
-          <li>\(\Pi_{ab}(j,k;t)\) tracks the joint probability that lineage \(a\) is in deme \(j\) and \(b\) is in deme \(k\) at time \(t\) — capturing the residual correlation from shared ancestry.</li>
+        <strong>Pass II — Forward (root → leaves)</strong>
+
+        <ul style="margin-top:10px">
+          <li>Propagates ancestral population distributions through time.</li>
+          <li>Tracks pairwise lineage locations:
+            $$\Pi_{ab}(j,k;t).$$
+          </li>
+          <li>Captures correlations introduced by shared ancestry and migration.</li>
+          <li>Determines where lineages are expected to co-occur.</li>
         </ul>
       </div>
 
     </div>
+
     <div class="right-column">
 
-      <p><strong>Why both are needed: the co-location question</strong></p>
-      <p style="margin-top:8px">The non-coalescence survival term penalises scenarios where pairs of lineages spend time together in the same deme <em>without</em> coalescing. To evaluate this penalty we need to know:</p>
+      <p><strong>Why both passes?</strong></p>
 
-      <ol style="margin-top:10px">
-        <li>How likely is it that lineages \(a\) and \(b\) are <em>both</em> in deme \(k\) right now? <span style="color:var(--accent-gold)">(forward pass)</span></li>
-        <li>Is their being in deme \(k\) consistent with what we see in their descendants? <span style="color:var(--accent)">(backward pass)</span></li>
-      </ol>
+      <ul style="margin-top:12px">
+        <li><strong>Backward pass:</strong> How well does a population assignment explain the observed genealogy?</li>
+        <li><strong>Forward pass:</strong> Where are ancestral lineages expected to be through time?</li>
+        <li>Combining both produces the posterior probability that two lineages occupy the same population.</li>
+        <li>This posterior determines the expected coalescence rate used in the survival term.</li>
+      </ul>
 
       <!-- Venn-style diagram -->
       <svg viewBox="0 0 240 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;margin-top:18px">
-        <ellipse cx="85"  cy="85" rx="68" ry="50" fill="var(--accent)"      opacity=".15" stroke="var(--accent)"      stroke-width="1.5"/>
-        <ellipse cx="155" cy="85" rx="68" ry="50" fill="var(--accent-gold)" opacity=".15" stroke="var(--accent-gold)" stroke-width="1.5"/>
-        <text x="52"  y="75"  text-anchor="middle" font-size="10" fill="var(--accent)"      font-family="Inter" font-weight="600">Forward</text>
-        <text x="52"  y="89"  text-anchor="middle" font-size="9"  fill="var(--accent)"      font-family="Inter">where lineages</text>
-        <text x="52"  y="101" text-anchor="middle" font-size="9"  fill="var(--accent)"      font-family="Inter">are likely to be</text>
-        <text x="187" y="75"  text-anchor="middle" font-size="10" fill="var(--accent-gold)" font-family="Inter" font-weight="600">Backward</text>
-        <text x="187" y="89"  text-anchor="middle" font-size="9"  fill="var(--accent-gold)" font-family="Inter">what location</text>
-        <text x="187" y="101" text-anchor="middle" font-size="9"  fill="var(--accent-gold)" font-family="Inter">implies for data</text>
-        <text x="120" y="82"  text-anchor="middle" font-size="9"  fill="var(--text-muted)"  font-family="Inter" font-weight="600">Posterior</text>
-        <text x="120" y="95"  text-anchor="middle" font-size="8"  fill="var(--text-muted)"  font-family="Inter">\(\gamma_{ab}\)</text>
+        <ellipse cx="85" cy="85" rx="68" ry="50"
+                 fill="var(--accent)" opacity=".15"
+                 stroke="var(--accent)" stroke-width="1.5"/>
+
+        <ellipse cx="155" cy="85" rx="68" ry="50"
+                 fill="var(--accent-gold)" opacity=".15"
+                 stroke="var(--accent-gold)" stroke-width="1.5"/>
+
+        <text x="52" y="75"
+              text-anchor="middle"
+              font-size="10"
+              fill="var(--accent)"
+              font-family="Inter"
+              font-weight="600">Forward</text>
+
+        <text x="52" y="89"
+              text-anchor="middle"
+              font-size="9"
+              fill="var(--accent)"
+              font-family="Inter">Lineage</text>
+
+        <text x="52" y="101"
+              text-anchor="middle"
+              font-size="9"
+              fill="var(--accent)"
+              font-family="Inter">locations</text>
+
+        <text x="187" y="75"
+              text-anchor="middle"
+              font-size="10"
+              fill="var(--accent-gold)"
+              font-family="Inter"
+              font-weight="600">Backward</text>
+
+        <text x="187" y="89"
+              text-anchor="middle"
+              font-size="9"
+              fill="var(--accent-gold)"
+              font-family="Inter">Observed</text>
+
+        <text x="187" y="101"
+              text-anchor="middle"
+              font-size="9"
+              fill="var(--accent-gold)"
+              font-family="Inter">genealogy</text>
+
+        <text x="120" y="82"
+              text-anchor="middle"
+              font-size="9"
+              fill="var(--text-muted)"
+              font-family="Inter"
+              font-weight="600">Posterior</text>
+
+        <text x="120" y="95"
+              text-anchor="middle"
+              font-size="8"
+              fill="var(--text-muted)"
+              font-family="Inter">\(\gamma_{ab}\)</text>
       </svg>
 
-      <p class="caption">The posterior co-location probability \(\gamma_{ab}\) is the product of the forward prior and the backward likelihood, normalised — exactly Bayes' theorem applied to lineage geography.</p>
+      <p class="caption">
+        The forward pass provides a prior over lineage locations, while the backward pass provides the likelihood of the observed genealogy. Their combination yields the posterior distribution used to compute expected coalescence rates.
+      </p>
 
     </div>
+
   </div>
 
 </section>
