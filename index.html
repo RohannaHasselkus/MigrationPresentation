@@ -110,8 +110,7 @@ MathJax = {
 <!-- ══════════════════════════════════════════
      Slide 3 — Biological Setting
 ══════════════════════════════════════════ -->
-
-  <section class="slide" data-label="Biological Setting">
+<section class="slide" data-label="Biological Setting">
   <div class="slide-number-ghost">03</div>
 
   <h1>Biological Setting</h1>
@@ -120,228 +119,140 @@ MathJax = {
   <div class="two-column">
 
     <div class="left-column">
-
       <ul>
         <li><strong>Genealogies summarize shared ancestry</strong> among sampled chromosomes.</li>
         <li>Each internal node represents a <strong>coalescence event</strong> (the most recent common ancestor of two lineages).</li>
         <li>Branch lengths record the <strong>time between coalescence events</strong>.</li>
       </ul>
 
-      <div class="callout" style="margin-top:18px">
+      <div class="callout">
         <strong>Population size shapes genealogies</strong>
-        <ul style="margin-top:8px">
+        <ul>
           <li>Small populations → rapid coalescence → shorter branches</li>
           <li>Large populations → slower coalescence → longer branches</li>
         </ul>
       </div>
 
-      <ul style="margin-top:18px">
+      <ul>
         <li>Each lineage also carries a <strong>population assignment</strong>.</li>
         <li>Migration changes that assignment through time.</li>
         <li>Together, genealogy + lineage locations encode
-          <ul>
+          <ul style="margin-top:6px">
             <li>effective population size</li>
             <li>population structure</li>
             <li>migration history</li>
           </ul>
         </li>
       </ul>
-
     </div>
 
     <div class="right-column">
+      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
 
-      <svg
-        viewBox="0 0 320 330"
-        xmlns="http://www.w3.org/2000/svg"
-        style="width:100%;max-width:330px;margin:auto;display:block">
+        <!-- Population shading -->
+        <rect x="40" y="24" width="175" height="310" rx="12" fill="#185FA5" opacity="0.06"/>
+        <rect x="230" y="24" width="175" height="310" rx="12" fill="#854F0B" opacity="0.08"/>
 
-        <!-- Population regions -->
-        <rect x="40" y="30"
-              width="105"
-              height="260"
-              rx="10"
-              fill="var(--accent)"
-              opacity=".05"/>
-
-        <rect x="175" y="30"
-              width="105"
-              height="260"
-              rx="10"
-              fill="var(--accent-gold)"
-              opacity=".05"/>
-
-        <text x="92"
-              y="22"
-              text-anchor="middle"
-              font-size="12"
-              font-weight="600"
-              fill="var(--accent)">
-          Population A
-        </text>
-
-        <text x="227"
-              y="22"
-              text-anchor="middle"
-              font-size="12"
-              font-weight="600"
-              fill="var(--accent-gold)">
-          Population B
-        </text>
+        <!-- Pop labels -->
+        <text x="127" y="17" text-anchor="middle" font-size="11" font-weight="600"
+              font-family="system-ui,sans-serif" fill="#185FA5">Population A</text>
+        <text x="317" y="17" text-anchor="middle" font-size="11" font-weight="600"
+              font-family="system-ui,sans-serif" fill="#854F0B">Population B</text>
 
         <!-- Time axis -->
-        <line x1="18"
-              y1="290"
-              x2="18"
-              y2="45"
-              stroke="var(--text-muted)"
-              stroke-width="1.4"/>
+        <line x1="20" y1="340" x2="20" y2="44" stroke="#aaa" stroke-width="1.2"/>
+        <polygon points="20,36 16.5,46 23.5,46" fill="#aaa"/>
+        <text x="20" y="356" text-anchor="middle" font-size="9"
+              font-family="system-ui,sans-serif" fill="#888">present</text>
+        <text x="20" y="33" text-anchor="middle" font-size="9"
+              font-family="system-ui,sans-serif" fill="#888">past</text>
 
-        <polygon points="18,35 14,45 22,45"
-                 fill="var(--text-muted)"/>
+        <!-- LEAVES -->
+        <circle cx="88"  cy="330" r="5" fill="#185FA5"/>
+        <text x="88"  y="348" text-anchor="middle" font-size="10"
+              font-family="system-ui,sans-serif" fill="#185FA5">a₁</text>
+        <circle cx="162" cy="330" r="5" fill="#185FA5"/>
+        <text x="162" y="348" text-anchor="middle" font-size="10"
+              font-family="system-ui,sans-serif" fill="#185FA5">a₂</text>
+        <circle cx="288" cy="330" r="5" fill="#854F0B"/>
+        <text x="288" y="348" text-anchor="middle" font-size="10"
+              font-family="system-ui,sans-serif" fill="#854F0B">b₁</text>
+        <circle cx="362" cy="330" r="5" fill="#854F0B"/>
+        <text x="362" y="348" text-anchor="middle" font-size="10"
+              font-family="system-ui,sans-serif" fill="#854F0B">b₂</text>
 
-        <text x="18"
-              y="307"
-              text-anchor="middle"
-              font-size="10"
-              fill="var(--text-muted)">
-          present
-        </text>
+        <!-- POP A COALESCENCE at y=220 -->
+        <line x1="88"  y1="330" x2="88"  y2="220" stroke="#185FA5" stroke-width="2.2"/>
+        <line x1="162" y1="330" x2="162" y2="220" stroke="#185FA5" stroke-width="2.2"/>
+        <line x1="88"  y1="220" x2="162" y2="220" stroke="#185FA5" stroke-width="2.2"/>
+        <circle cx="125" cy="220" r="5" fill="#185FA5"/>
+        <!-- CA up to MRCA -->
+        <line x1="125" y1="220" x2="125" y2="82" stroke="#185FA5" stroke-width="2.2"/>
 
-        <text x="18"
-              y="30"
-              text-anchor="middle"
-              font-size="10"
-              fill="var(--text-muted)">
-          past
-        </text>
+        <!-- POP B COALESCENCE at y=188 -->
+        <line x1="288" y1="330" x2="288" y2="188" stroke="#854F0B" stroke-width="2.2"/>
+        <line x1="362" y1="330" x2="362" y2="188" stroke="#854F0B" stroke-width="2.2"/>
+        <line x1="288" y1="188" x2="362" y2="188" stroke="#854F0B" stroke-width="2.2"/>
+        <circle cx="325" cy="188" r="5" fill="#854F0B"/>
+        <!-- CB up to migration -->
+        <line x1="325" y1="188" x2="325" y2="134" stroke="#854F0B" stroke-width="2.2"/>
 
-        <!-- Sampled chromosomes -->
-        <circle cx="70" cy="280" r="5" fill="var(--accent)"/>
-        <circle cx="115" cy="280" r="5" fill="var(--accent)"/>
-        <circle cx="205" cy="280" r="5" fill="var(--accent-gold)"/>
-        <circle cx="250" cy="280" r="5" fill="var(--accent-gold)"/>
+        <!-- MIGRATION at y=134 -->
+        <!-- origin node (open, gold border) -->
+        <circle cx="325" cy="134" r="5.5" fill="#fff" stroke="#854F0B" stroke-width="1.6"/>
+        <!-- dashed arrow B→A -->
+        <line x1="319" y1="134" x2="196" y2="134"
+              stroke="#888" stroke-width="1.1" stroke-dasharray="5,4"
+              marker-end="url(#mig-arrow)"/>
+        <!-- arrival node (open, blue border) -->
+        <circle cx="188" cy="134" r="5.5" fill="#fff" stroke="#185FA5" stroke-width="1.6"/>
+        <!-- migrated lineage in Pop A color, dashed to signal "arrived from elsewhere" -->
+        <line x1="188" y1="134" x2="188" y2="82" stroke="#185FA5" stroke-width="2.2"
+              stroke-dasharray="6,3"/>
 
-        <!-- Left subtree -->
-        <line x1="70" y1="280" x2="70" y2="205"
-              stroke="var(--accent)"
-              stroke-width="2"/>
+        <!-- migration arrow marker -->
+        <defs>
+          <marker id="mig-arrow" viewBox="0 0 10 10" refX="8" refY="5"
+                  markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
 
-        <line x1="115" y1="280" x2="115" y2="205"
-              stroke="var(--accent)"
-              stroke-width="2"/>
+        <!-- Migration label -->
+        <text x="257" y="124" text-anchor="middle" font-size="9.5" font-style="italic"
+              font-family="system-ui,sans-serif" fill="#888">migration (B → A)</text>
 
-        <line x1="70" y1="205" x2="115" y2="205"
-              stroke="var(--accent)"
-              stroke-width="2"/>
+        <!-- MRCA at y=82 -->
+        <line x1="125" y1="82" x2="188" y2="82" stroke="#185FA5" stroke-width="2.2"/>
+        <circle cx="156" cy="82" r="7" fill="#185FA5"/>
+        <text x="170" y="70" font-size="10" font-weight="600"
+              font-family="system-ui,sans-serif" fill="#185FA5">MRCA</text>
 
-        <circle cx="92.5"
-                cy="205"
-                r="4.5"
-                fill="var(--accent)"/>
+        <!-- Coalescence labels -->
+        <text x="168" y="216" font-size="9" font-family="system-ui,sans-serif"
+              fill="#185FA5" opacity="0.8">coalescence</text>
+        <text x="331" y="184" font-size="9" font-family="system-ui,sans-serif"
+              fill="#854F0B" opacity="0.8">coalescence</text>
 
-        <!-- Right subtree -->
-        <line x1="205" y1="280" x2="205" y2="180"
-              stroke="var(--accent-gold)"
-              stroke-width="2"/>
-
-        <line x1="250" y1="280" x2="250" y2="180"
-              stroke="var(--accent-gold)"
-              stroke-width="2"/>
-
-        <line x1="205" y1="180" x2="250" y2="180"
-              stroke="var(--accent-gold)"
-              stroke-width="2"/>
-
-        <circle cx="227.5"
-                cy="180"
-                r="4.5"
-                fill="var(--accent-gold)"/>
-
-        <!-- Lineage continues in Population B -->
-        <line x1="205"
-              y1="180"
-              x2="205"
-              y2="140"
-              stroke="var(--accent-gold)"
-              stroke-width="2"/>
-
-        <!-- Migration event -->
-        <circle cx="205"
-                cy="140"
-                r="4"
-                fill="white"
-                stroke="var(--text-muted)"
-                stroke-width="1.5"/>
-
-        <line x1="205"
-              y1="140"
-              x2="120"
-              y2="140"
-              stroke="var(--text-muted)"
-              stroke-width="1.4"
-              stroke-dasharray="5 4"/>
-
-        <polygon points="122,136 114,140 122,144"
-                 fill="var(--text-muted)"/>
-
-        <text x="162"
-              y="129"
-              text-anchor="middle"
-              font-size="10"
-              fill="var(--text-muted)"
-              font-style="italic">
-          migration
-        </text>
-
-        <!-- Migrated lineage now in Population A -->
-        <line x1="120"
-              y1="140"
-              x2="120"
-              y2="85"
-              stroke="var(--accent)"
-              stroke-width="2"/>
-
-        <!-- Left lineage continues -->
-        <line x1="92.5"
-              y1="205"
-              x2="92.5"
-              y2="85"
-              stroke="var(--accent)"
-              stroke-width="2"/>
-
-        <!-- MRCA occurs in Population A -->
-        <line x1="92.5"
-              y1="85"
-              x2="120"
-              y2="85"
-              stroke="var(--accent)"
-              stroke-width="2"/>
-
-        <circle cx="106.25"
-                cy="85"
-                r="5.5"
-                fill="var(--accent)"/>
-
-        <text x="118"
-              y="73"
-              font-size="10"
-              fill="var(--text-muted)">
-          MRCA
-        </text>
+        <!-- Legend -->
+        <line x1="344" y1="310" x2="366" y2="310" stroke="#185FA5" stroke-width="2.2"/>
+        <text x="372" y="314" font-size="9" font-family="system-ui,sans-serif" fill="#555">Pop A lineage</text>
+        <line x1="344" y1="328" x2="366" y2="328" stroke="#854F0B" stroke-width="2.2"/>
+        <text x="372" y="332" font-size="9" font-family="system-ui,sans-serif" fill="#555">Pop B lineage</text>
+        <line x1="344" y1="346" x2="366" y2="346" stroke="#888" stroke-width="1.1"
+              stroke-dasharray="5,4"/>
+        <text x="372" y="350" font-size="9" font-family="system-ui,sans-serif" fill="#555">migration</text>
 
       </svg>
 
       <p class="caption">
-        A genealogy records when lineages coalesce backward in time. Migration changes the population containing a lineage, while branch lengths encode the timing of common ancestry.
+        A genealogy records when lineages coalesce backward in time. After migration, the lineage changes population assignment (dashed) and subsequently coalesces with the Pop&nbsp;A ancestor at the MRCA.
       </p>
-
     </div>
 
   </div>
-
 </section>
-
 <!-- ══════════════════════════════════════════
      Slide 4 — gLike
 ══════════════════════════════════════════ -->
